@@ -27,10 +27,10 @@ app.listen(port, () => console.log('Express server is runnig at port no : ', por
 ////////////////////// Valid ate User //////////////////////
 app.post('/login', (req, res) => {
     let emp = req.body;
-    var sql = "SET @EmpCode = ?;SET @PasswordHash = ?;SET @IsSuccess = ?; \
-    CALL validate_login(@EmpCode ,@PasswordHash ,@IsSuccess); \
+    var sql = "SET @Username = ?;SET @PasswordHash = ?;SET @IsSuccess = ?; \
+    CALL validate_login(@Username ,@PasswordHash ,@IsSuccess); \
     SELECT @IsSuccess";
-    mysqlConnection.query(sql, [emp.empcode, emp.passwordhash, emp.issuccess], (err, rows, fields) => {
+    mysqlConnection.query(sql, [emp.username, emp.passwordhash, emp.issuccess], (err, rows, fields) => {
         if (!err)
             rows.forEach(element => {
                 if (element.constructor == Array) {
@@ -45,7 +45,7 @@ app.post('/login', (req, res) => {
 
 ////////////////////// Get all employees //////////////////////
 app.get('/employees', (req, res) => {
-    mysqlConnection.query('SELECT * FROM employee_tbl', (err, rows, fields) => {
+    mysqlConnection.query('SELECT * FROM user_tbl', (err, rows, fields) => {
         if (!err)
             res.send(rows);
         else
@@ -53,64 +53,64 @@ app.get('/employees', (req, res) => {
     })
 });
 
-////////////////////// Get by employees //////////////////////
-app.get('/employees/:id', (req, res) => {
-    mysqlConnection.query('SELECT * FROM eact_uat_db.employee_tbl as e1 \
-    left join eact_uat_db.employee_jobtitle_tbl as j1 \
-    on e1.job_code = j1.job_code WHERE empcode = ?', [req.params.id], (err, rows, fields) => {
-        if (!err)
-            res.send(rows);
-        else
-            console.log(err);
-    })
-});
+// ////////////////////// Get by employees //////////////////////
+// app.get('/employees/:id', (req, res) => {
+//     mysqlConnection.query('SELECT * FROM eact_uat_db.employee_tbl as e1 \
+//     left join eact_uat_db.employee_jobtitle_tbl as j1 \
+//     on e1.job_code = j1.job_code WHERE empcode = ?', [req.params.id], (err, rows, fields) => {
+//         if (!err)
+//             res.send(rows);
+//         else
+//             console.log(err);
+//     })
+// });
 
-////////////////////// Create User //////////////////////
+// ////////////////////// Create User //////////////////////
 
-app.post('/employees', (req, res) => {
-    let emp = req.body;
-    var sql = "SET @EmpCode = ?;SET @FirstName = ?;SET @LastName = ?; SET @ShiftCode = ?;SET @PasswordHash = ?;SET @CreateTime = ?;SET @IsSuccess = ?; \
-    CALL create_new_user(@EmpCode, @FirstName, @LastName, @ShiftCode, @PasswordHash, @CreateTime, @IsSuccess); \
-    SELECT @IsSuccess";
-    mysqlConnection.query(sql, [emp.empcode, emp.firstname, emp.lastname, emp.shiftcode, emp.passwordhash, emp.createtime, emp.issuccess], (err, rows, fields) => {
-        if (!err)
-            rows.forEach(element => {
-                if (element.constructor == Array) {
-                    let dict = element[0];
-                    res.send(dict["@IsSuccess"]);
-                }
-            });
-        else
-            console.log(err);
-    })
-});
+// app.post('/employees', (req, res) => {
+//     let emp = req.body;
+//     var sql = "SET @EmpCode = ?;SET @FirstName = ?;SET @LastName = ?; SET @ShiftCode = ?;SET @PasswordHash = ?;SET @CreateTime = ?;SET @IsSuccess = ?; \
+//     CALL create_new_user(@EmpCode, @FirstName, @LastName, @ShiftCode, @PasswordHash, @CreateTime, @IsSuccess); \
+//     SELECT @IsSuccess";
+//     mysqlConnection.query(sql, [emp.empcode, emp.firstname, emp.lastname, emp.shiftcode, emp.passwordhash, emp.createtime, emp.issuccess], (err, rows, fields) => {
+//         if (!err)
+//             rows.forEach(element => {
+//                 if (element.constructor == Array) {
+//                     let dict = element[0];
+//                     res.send(dict["@IsSuccess"]);
+//                 }
+//             });
+//         else
+//             console.log(err);
+//     })
+// });
 
-////////////////////// Update User Informations //////////////////////
+// ////////////////////// Update User Informations //////////////////////
 
-app.put('/employees', (req, res) => {
-    let emp = req.body;
-    var sql = "SET @EmpCode = ?;SET @FirstName = ?;SET @LastName = ?; SET @ShiftCode = ?;SET @PasswordHash = ?;SET @CreateTime = ?;SET @IsSuccess = ?; \
-    CALL update_user_information(@EmpCode, @FirstName, @LastName, @ShiftCode, @PasswordHash, @CreateTime, @IsSuccess); \
-    SELECT @IsSuccess";
-    mysqlConnection.query(sql, [emp.empcode, emp.firstname, emp.lastname, emp.shiftcode, emp.passwordhash, emp.createtime, emp.issuccess], (err, rows, fields) => {
-        if (!err)
-            rows.forEach(element => {
-                if (element.constructor == Array) {
-                    let dict = element[0];
-                    res.send(dict["@IsSuccess"]);
-                }
-            });
-        else
-            console.log(err);
-    })
-});
+// app.put('/employees', (req, res) => {
+//     let emp = req.body;
+//     var sql = "SET @EmpCode = ?;SET @FirstName = ?;SET @LastName = ?; SET @ShiftCode = ?;SET @PasswordHash = ?;SET @CreateTime = ?;SET @IsSuccess = ?; \
+//     CALL update_user_information(@EmpCode, @FirstName, @LastName, @ShiftCode, @PasswordHash, @CreateTime, @IsSuccess); \
+//     SELECT @IsSuccess";
+//     mysqlConnection.query(sql, [emp.empcode, emp.firstname, emp.lastname, emp.shiftcode, emp.passwordhash, emp.createtime, emp.issuccess], (err, rows, fields) => {
+//         if (!err)
+//             rows.forEach(element => {
+//                 if (element.constructor == Array) {
+//                     let dict = element[0];
+//                     res.send(dict["@IsSuccess"]);
+//                 }
+//             });
+//         else
+//             console.log(err);
+//     })
+// });
 
-////////////////////// Delete an employees //////////////////////
-app.delete('/employees/:id', (req, res) => {
-    mysqlConnection.query('DELETE FROM  employee_tbl WHERE empcode = ?', [req.params.id], (err, rows, fields) => {
-        if (!err)
-            res.send('Deleted successfully.');
-        else
-            console.log(err);
-    })
-});
+// ////////////////////// Delete an employees //////////////////////
+// app.delete('/employees/:id', (req, res) => {
+//     mysqlConnection.query('DELETE FROM  employee_tbl WHERE empcode = ?', [req.params.id], (err, rows, fields) => {
+//         if (!err)
+//             res.send('Deleted successfully.');
+//         else
+//             console.log(err);
+//     })
+// });
