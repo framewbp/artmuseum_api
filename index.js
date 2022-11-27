@@ -27,10 +27,10 @@ app.listen(port, () => console.log('Express server is runnig at port no : ', por
 ////////////////////// Valid ate User //////////////////////
 app.post('/login', (req, res) => {
     let emp = req.body;
-    var sql = "SET @Username = ?;SET @PasswordHash = ?;SET @IsSuccess = ?; \
-    CALL validate_login(@Username ,@PasswordHash ,@IsSuccess); \
+    var sql = "SET @Username = ?;SET @Password = ?;SET @IsSuccess = ?; \
+    CALL validate_login(@Username ,@Password ,@IsSuccess); \
     SELECT @IsSuccess";
-    mysqlConnection.query(sql, [emp.username, emp.passwordhash, emp.issuccess], (err, rows, fields) => {
+    mysqlConnection.query(sql, [emp.username, emp.password, emp.issuccess], (err, rows, fields) => {
         if (!err)
             rows.forEach(element => {
                 if (element.constructor == Array) {
