@@ -44,7 +44,7 @@ app.post('/login', (req, res) => {
 });
 
 ////////////////////// Get all employees //////////////////////
-app.get('/employees', (req, res) => {
+app.get('/users', (req, res) => {
     mysqlConnection.query('SELECT * FROM user_tbl', (err, rows, fields) => {
         if (!err)
             res.send(rows);
