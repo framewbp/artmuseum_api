@@ -35,7 +35,39 @@ app.post('/login', (req, res) => {
             rows.forEach(element => {
                 if (element.constructor == Array) {
                     let dict = element[0];
-                    res.send(dict["@IsSuccess"]);
+                    // res.send(dict["@IsSuccess"]);
+                    let data = {}
+                    if(dict["@IsSuccess"] == "successful"){
+                        data = {
+                            result: "true",
+                            message: "success",
+                            response: {
+                                username: "andrew",
+                                firstname: "Andrew",
+                                lastname: "Walter",
+                                dob: "2022-11-22",
+                                email: "andrew@abc.com",
+                                contactno: "12345",
+                                gender: "male",
+                            }
+                        }
+                    }
+                    else{
+                        data = {
+                            result: "false",
+                            message: "failed",
+                            response: {
+                                username: "andrew",
+                                firstname: "Andrew",
+                                lastname: "Walter",
+                                dob: "2022-11-22",
+                                email: "andrew@abc.com",
+                                contactno: "12345",
+                                gender: "male",
+                            }
+                        }
+                    }
+                    res.send(data)
                 }
             });
         else
