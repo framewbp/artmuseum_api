@@ -42,13 +42,11 @@ app.post('/login', (req, res) => {
                             result: "true",
                             message: "success",
                             response: {
-                                username: "andrew",
-                                firstname: "Andrew",
-                                lastname: "Walter",
-                                dob: "2022-11-22",
-                                email: "andrew@abc.com",
-                                contactno: "12345",
-                                gender: "male",
+                                exhibition: "MASTERS\nOLD AND\nNEW",
+                                date: "APRIL 15 - SEPTEMBER 20",
+                                floor: "Walter",
+                                location: "151 3rd St\nSan Francisco, CA 94103",
+                                time: "Open today\n10:00am-5:30pm"
                             }
                         }
                     }
@@ -57,13 +55,11 @@ app.post('/login', (req, res) => {
                             result: "false",
                             message: "failed",
                             response: {
-                                username: "andrew",
-                                firstname: "Andrew",
-                                lastname: "Walter",
-                                dob: "2022-11-22",
-                                email: "andrew@abc.com",
-                                contactno: "12345",
-                                gender: "male",
+                                exhibition: "",
+                                date: "",
+                                floor: "",
+                                location: "",
+                                time: ""
                             }
                         }
                     }
