@@ -44,7 +44,7 @@ app.post('/login', (req, res) => {
                             response: {
                                 exhibition: "MASTERS\nOLD AND\nNEW",
                                 date: "APRIL 15 - SEPTEMBER 20",
-                                floor: "Walter",
+                                optional: "FLOOR 5",
                                 location: "151 3rd St\nSan Francisco, CA 94103",
                                 time: "Open today\n10:00am-5:30pm",
                                 email: emp.username
@@ -58,7 +58,7 @@ app.post('/login', (req, res) => {
                             response: {
                                 exhibition: "",
                                 date: "",
-                                floor: "",
+                                optional: "",
                                 location: "",
                                 time: "",
                                 email: emp.username
